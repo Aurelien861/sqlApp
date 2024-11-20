@@ -16,17 +16,44 @@ void main() {
         ChangeNotifierProvider(create: (context) => LostObjectsProvider()),
         ChangeNotifierProvider(create: (context) => AdminProvider()),
       ],
-      child: MyApp(),
+      child: const AppInitializer(),
     ),
   );
 }
 
-class MyApp extends StatefulWidget {
+class AppInitializer extends StatelessWidget {
+  const AppInitializer({super.key});
+
   @override
-  _MyAppState createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return FutureBuilder<Database>(
+      future: initializeDB(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return MaterialApp(
+              home: Scaffold(
+                body: Center(child: Text('Erreur : ${snapshot.error}')),
+              ),
+            );
+          } else {
+            return const MyApp();
+          }
+        } else {
+          return const MaterialApp(
+            home: Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+          );
+        }
+      },
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ThemeProvider(
@@ -43,21 +70,9 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: const [
           Locale('fr', ''),
         ],
-        home: FutureBuilder<Database>(
-          future: initializeDB(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Center(child: Text('Erreur : ${snapshot.error}'));
-              } else {
-                return HomePage();
-              }
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
+        home: HomePage(),
       ),
     );
   }
 }
+

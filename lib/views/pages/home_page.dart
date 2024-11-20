@@ -49,13 +49,16 @@ class __HomePageState extends State<HomePage> {
                             : Icons.admin_panel_settings,
                         color: Theme.of(context).colorScheme.inversePrimary,
                       ),
-                      onPressed: () {
-                        ThemeSwitcher.of(context).changeTheme(
-                            theme: adminProvider.isAdmin
-                                ? normalTheme
-                                : adminTheme,
-                            isReversed: adminProvider.isAdmin ? true : false,);
+                      onPressed: () async {
                         adminProvider.toggleAdmin();
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          ThemeSwitcher.of(context).changeTheme(
+                            theme: adminProvider.isAdmin
+                                ? adminTheme
+                                : normalTheme,
+                            isReversed: adminProvider.isAdmin ? true : false,
+                          );
+                        });
                       },
                     );
                   }),

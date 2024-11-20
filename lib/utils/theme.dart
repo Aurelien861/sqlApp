@@ -54,10 +54,10 @@ class Themes {
     primaryColor: const Color(0xFF6665DD),
     colorScheme: const ColorScheme.dark(
         primary: Color(0xFFFE5D9F),
-        secondary: Color(0xFF9B9B93),
+        secondary: Color.fromARGB(255, 179, 183, 244),
         tertiary: Color(0xFF63B0CD),
         inversePrimary: Color(0xFFE0E0E0)),
-    scaffoldBackgroundColor: const Color.fromARGB(255, 70, 62, 89),
+    scaffoldBackgroundColor: const Color.fromARGB(255, 39, 34, 49),
     textTheme: const TextTheme(
         bodyMedium: TextStyle(
           fontSize: 14,
